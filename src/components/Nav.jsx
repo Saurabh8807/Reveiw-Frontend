@@ -41,7 +41,7 @@ export default function Nav() {
             )}
             <Button color="inherit" component={Link} to="/">Record</Button>
             <Chip
-              avatar={<Avatar sx={{ bgcolor: '#e8930c', color: '#3d2500', fontWeight: 800 }}>{(user.name || user.email)[0].toUpperCase()}</Avatar>}
+              avatar={<Avatar sx={{ bgcolor: '#e8930c', color: '#3d2500', fontWeight: 800 }}>{((user.name || user.email || '?')[0] || '?').toUpperCase()}</Avatar>}
               label={`${user.name?.split(' ')[0] || user.email} · ${user.role}`}
               sx={{ color: '#fff', bgcolor: 'rgba(255,255,255,0.14)', display: { xs: 'none', sm: 'flex' } }}
             />

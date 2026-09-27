@@ -11,7 +11,10 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const t = localStorage.getItem('vf_token');
     if (!t) return setLoading(false);
-    api.get('/auth/me').then((r) => setUser(r.data.user)).catch(() => localStorage.removeItem('vf_token')).finally(() => setLoading(false));
+    api.get('/auth/me')
+      .then((r) => setUser(r.data.user || null))
+      .catch(() => { localStorage.removeItem('vf_token'); setUser(null); })
+      .finally(() => setLoading(false));
   }, []);
 
   const login = async (email, password) => {

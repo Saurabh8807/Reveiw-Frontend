@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Nav from './components/Nav';
 import Guard from './components/Guard';
@@ -16,6 +16,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Guard><UserDashboard /></Guard>} />
           <Route path="/admin" element={<Guard admin><AdminDashboard /></Guard>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Button, Card, CardContent, TextField, Typography, Alert, Divider } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 function Shell({ title, subtitle, children }) {
@@ -40,7 +40,7 @@ export function Login() {
   const nav = useNavigate();
   const { login, user } = useAuth();
   const go = (u) => nav(u?.role === 'admin' ? '/admin' : '/', { replace: true });
-  if (user) { go(user); return null; }
+  if (user) return <Navigate to={user.role === 'admin' ? '/admin' : '/'} replace />;
 
   const submit = async () => {
     setErr(''); setBusy(true);

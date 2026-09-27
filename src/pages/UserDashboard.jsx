@@ -11,7 +11,7 @@ export default function UserDashboard() {
   const { user } = useAuth();
 
   const load = useCallback(async () => {
-    try { const r = await api.get('/feedback/my'); setItems(r.data.feedbacks); }
+    try { const r = await api.get('/feedback/my'); setItems(r.data.feedbacks || []); }
     catch (e) { setErr(e.response?.data?.error || 'Failed to load'); }
   }, []);
   useEffect(() => { load(); }, [load]);
@@ -41,7 +41,7 @@ export default function UserDashboard() {
           your order. Our women-led kitchen in Mumbai listens to every single one.
         </Typography>
         <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
-          <Chip label={`${items.length} feedback${items.length === 1 ? '' : 's'} shared`} sx={{ bgcolor: 'rgba(255,255,255,0.16)', color: '#fff', fontWeight: 600 }} />
+          <Chip label={`${(items || []).length} feedback${(items || []).length === 1 ? '' : 's'} shared`} sx={{ bgcolor: 'rgba(255,255,255,0.16)', color: '#fff', fontWeight: 600 }} />
           <Chip label="Avg. reply within a day" sx={{ bgcolor: 'rgba(232,147,12,0.9)', color: '#3d2500', fontWeight: 700 }} />
         </Stack>
       </Box>
@@ -50,14 +50,14 @@ export default function UserDashboard() {
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: 4, mb: 1 }}>
         <Typography variant="h6">Your voice notes</Typography>
-        <Chip size="small" label={items.length} sx={{ bgcolor: '#f1e4e6', color: '#8e2a3c', fontWeight: 700 }} />
+        <Chip size="small" label={(items || []).length} sx={{ bgcolor: '#f1e4e6', color: '#8e2a3c', fontWeight: 700 }} />
         <Box sx={{ flexGrow: 1 }} />
         <Button size="small" variant="text" onClick={load} sx={{ color: '#8e2a3c' }}>Refresh</Button>
       </Box>
 
       {err && <Alert severity="error" sx={{ mt: 2, borderRadius: 3 }}>{err}</Alert>}
 
-      {items.map((f) => (
+      {(items || []).map((f) => (
         <Card key={f.id} sx={{ mt: 2, boxShadow: 2, transition: 'transform 0.15s, box-shadow 0.15s', '&:hover': { transform: 'translateY(-2px)', boxShadow: 4 } }}>
           <CardContent>
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -76,7 +76,7 @@ export default function UserDashboard() {
           </CardContent>
         </Card>
       ))}
-      {items.length === 0 && (
+      {(items || []).length === 0 && (
         <Card sx={{ mt: 2, textAlign: 'center', py: 4, borderStyle: 'dashed' }}>
           <Typography sx={{ fontSize: 40 }}>🎙️</Typography>
           <Typography color="text.secondary">No feedback yet — your first recording will appear here.</Typography>

@@ -8,10 +8,12 @@ export function useFeedbackAdmin(sentiment, search) {
   const [msg, setMsg] = useState('');
 
   const load = useCallback(async () => {
-    const r = await api.get('/feedback', { params: { sentiment: sentiment || undefined, search: search || undefined } });
-    setItems(r.data.feedbacks);
-    const s = await api.get('/stats/summary');
-    setStats(s.data);
+    try {
+      const r = await api.get('/feedback', { params: { sentiment: sentiment || undefined, search: search || undefined } });
+      setItems(r.data.feedbacks || []);
+      const s = await api.get('/stats/summary');
+      setStats(s.data || null);
+    } catch { /* list errors are non-fatal on reload; pages show empty state */ }
   }, [sentiment, search]);
 
   useEffect(() => { load().catch(() => {}); }, [load]);

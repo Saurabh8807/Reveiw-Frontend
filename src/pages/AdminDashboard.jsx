@@ -45,10 +45,10 @@ export default function AdminDashboard() {
       )}
 
       <Typography variant="h6" sx={{ mt: 3 }}>
-        Feedback clips <Typography component="span" variant="body2" color="text.secondary">({items.length})</Typography>
+        Feedback clips <Typography component="span" variant="body2" color="text.secondary">({(items || []).length})</Typography>
       </Typography>
 
-      {items.map((f) => (
+      {(items || []).map((f) => (
         <FeedbackCard
           key={f.id}
           feedback={f}
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
           onDelete={() => remove(f.id)}
         />
       ))}
-      {items.length === 0 && (
+      {(items || []).length === 0 && (
         <Paper sx={{ mt: 2, textAlign: 'center', py: 5, borderStyle: 'dashed', bgcolor: 'transparent' }}>
           <Typography sx={{ fontSize: 40 }}>🔍</Typography>
           <Typography color="text.secondary">No feedback matches these filters yet.</Typography>
